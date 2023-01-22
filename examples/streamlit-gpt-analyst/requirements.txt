@@ -1,0 +1,5 @@
+python-dotenv>=0.21.0
+streamlit>=1.16.0
+openai>=0.26.0
+pandas>=1.5.2
+galaxybrain==0.0.3
