@@ -1,24 +1,24 @@
 from typing import Tuple
-from galaxybrain.summarizers import DriverSummarizer
+from galaxybrain.summarizers import CompletionDriverSummarizer
 from galaxybrain.workflows import CompletionStep, Workflow, Memory
-from galaxybrain.drivers import OpenAiDriver
+from galaxybrain.drivers import OpenAiCompletionDriver
 from galaxybrain.prompts import Prompt
 import galaxybrain.rules as rules
 import gradio as gr
 
 
 chat_rules = [
-    rules.conversation.be_truthful(),
-    rules.conversation.your_name_is("GalaxyGPT")
+    rules.meta.be_truthful(),
+    rules.meta.your_name_is("GalaxyGPT")
 ]
 
-driver = OpenAiDriver(temperature=0.5, user="demo")
-memory = Memory(summarizer=DriverSummarizer(driver=driver))
-workflow = Workflow(rules=chat_rules, driver=driver, memory=memory)
+driver = OpenAiCompletionDriver(temperature=0.5, user="demo")
+memory = Memory(summarizer=CompletionDriverSummarizer(driver=driver))
+workflow = Workflow(rules=chat_rules, completion_driver=driver, memory=memory)
 
 with gr.Blocks() as demo:
     def conversation_history() -> str:
-        return workflow.to_string()
+        return "\n\n".join([f"Q: {s[0].input.value}\nA: {s[0].output.value}" for s in workflow.memory.steps])
 
     def conversation_summary() -> str:
         return workflow.memory.summary

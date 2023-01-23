@@ -1,6 +1,6 @@
 import streamlit as st
 import logging
-from galaxybrain.drivers import OpenAiDriver
+from galaxybrain.drivers import OpenAiCompletionDriver
 from galaxybrain.prompts import Prompt
 from galaxybrain.rules import Rule, Validator
 import galaxybrain.rules.json as json_rules
@@ -17,13 +17,12 @@ rules = [
 
 # Now, let's define a default workflow driver that will be automatically used
 # to make requests to GPT.
-driver = OpenAiDriver(temperature=0.5, user="demo")
+driver = OpenAiCompletionDriver(temperature=0.5, user="demo")
 
 # Finally, setup the workflow
-workflow = Workflow(rules=rules, driver=driver)
+workflow = Workflow(rules=rules, completion_driver=driver)
 
-if "is_data_processed" not in st.session_state:
-    st.session_state.is_data_processed = False
+st.session_state.is_data_processed = False
 
 st.title("GPT Analyst")
 
