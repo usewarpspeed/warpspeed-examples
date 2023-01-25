@@ -1,16 +1,14 @@
 import galaxybrain.rules as rules
 from galaxybrain.drivers import OpenAiCompletionDriver
 from galaxybrain.prompts import Prompt
-from galaxybrain.summarizers import CompletionDriverSummarizer
-from galaxybrain.workflows import CompletionStep, Workflow, Memory, ComputeStep
+from galaxybrain.workflows import CompletionStep, Workflow, ComputeStep
 
 chat_rules = [
     rules.meta.your_name_is("GalaxyGPT")
 ]
 
 driver = OpenAiCompletionDriver(temperature=0.5, user="demo")
-memory = Memory(summarizer=CompletionDriverSummarizer(driver=driver))
-workflow = Workflow(rules=chat_rules, completion_driver=driver, memory=memory)
+workflow = Workflow(rules=chat_rules, completion_driver=driver)
 
 workflow.add_step(
     ComputeStep(
