@@ -41,7 +41,7 @@ with gr.Blocks() as demo:
         # question.
         return conversation_history(), conversation_summary()
 
-    # Finally, let's setup some UI.
+    # Finally, let's setup a UI with Gradio primitives.
     gr.Markdown("# GalaxyGPT")
 
     with gr.Row():
